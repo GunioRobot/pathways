@@ -77,7 +77,7 @@ module Pathways
     end
 
     get '/pages' do
-      @pages = Pathways::Session.popular_pages(:filter => "controller_action")
+      @pages = Pathways::Session.popular_pages
       show :pages
     end
 

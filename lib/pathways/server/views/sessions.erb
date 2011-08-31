@@ -4,6 +4,6 @@
 
 <ul>
   <% sessions.sort_by{|s|s.created_at}.each do | session | %>
-  <li><b><%= session.state %></b> <%= session.ip %> <a href="/sessions/<%= session.id %>/visits">Show Session</a> - <%=session.visits.count %> pages <%= "in #{session.visits.reject{|v|v.time_active.nil?}.sum(&:time_active)} seconds" if session.state == "closed" %></li>
+  <li><b><%= session.state %></b> <%= session.ip %> <a href="/sessions/<%= session.id %>">Show Session</a> - <%=session.visits.count %> pages <%= "in #{session.visits.reject{|v|v.time_active.nil?}.sum(&:time_active)} seconds" if session.state == "closed" %></li>
   <% end %>
 </ul>
