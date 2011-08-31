@@ -1,0 +1,27 @@
+<% sessions = Pathways::Session.all %>
+<% visits = sessions.collect{|s|s.visits}.flatten %>
+
+<h2>Overall Stats</h2>
+
+<ul>
+  <li>Total Visits - <%=  visits.size %> from <%= Pathways::Session.count %> sessions</li>
+</ul>
+<h2>Popular Paths</h2>
+<ul>
+  <% Pathways::Session.popular_pages.each do | key, visits | %>
+  <li><%= key %> - <%= summary(visits.size,Pathways::Session.count) %> <% visits.each do | session | %>
+        <a href="/sessions/<%= session %>">Session</a>
+      <% end %>
+  </li>
+  <% end %>
+</ul>
+
+<h2>Popular Controller Actions</h2>
+<ul>
+  <% Pathways::Session.popular_pages(:filter => "controller_action").each do | key, visits | %>
+  <li><%= key %> - <%= summary(visits.size,Pathways::Session.count) %> <% visits.each do | session | %>
+        <a href="/sessions/<%= session %>">Session</a>
+      <% end %>
+  </li>
+  <% end %>
+</ul>

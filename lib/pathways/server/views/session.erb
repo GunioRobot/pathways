@@ -1,0 +1,44 @@
+<% session = @session #Pathways::Session.find(params[:id]) %>
+<h2><%= session.state %> - <%= session.time_active %> seconds on the site.</h2>
+
+<% visits = session.visits %>
+
+<h2>Session Stats</h2>
+
+<ul>
+  <li>Total Pages viewed <%=  visits.size %></li>
+  <% visits.group_by(&:controller).each do | controller, visits | %>
+  <li><%= controller %> - <%= visits.size %>
+    <ul>
+      <% visits.group_by(&:action).each do | action, visits | %>
+      <li><%= "#{controller}##{action}" %> - <%= visits.size %></li>
+      <% end %>
+      </li>
+    </ul>
+  <% end %>
+</ul>
+
+<h3>Most engaging pages</h3>
+<ul>
+  <% session.visits.reject{|v| v.time_active.nil?}.sort_by{|v| v.time_active}.reverse[0..5].each do | visit | %>
+  <li>
+    <p>
+      Path - <b><%= visit.path %></b> |
+      Time Active - <%= visit.time_active %>
+    </p>
+  </li>
+  <% end %>
+</ul>
+
+<h3>Pages Visited</h3>
+<ul>
+  <% session.visits.sort_by{|v| -v.created_at}.reverse.each do | visit | %>
+  <li>
+    <p>
+      Created At - <%= visit.created_at %>
+      Controller#action - <b><%= "#{visit.controller}##{visit.action}" %></b> | Path - <b><%= visit.path %></b> |
+      Time Active - <%= (visit.time_active) ? visit.time_active : "<b>Currently Viewing</b>" %>
+    </p>
+  </li>
+  <% end %>
+</ul>

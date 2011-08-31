@@ -1,0 +1,12 @@
+<% actions = @actions %>
+
+<h2>Controller Actions</h2>
+
+<ul>
+  <% actions.each do | key, visits | %>
+  <li><%= key %> - <%= summary(visits.size,Pathways::Session.count) %> <% visits.each do | session | %>
+        <a href="/sessions/<%= session %>">Session</a>
+      <% end %>
+  </li>
+  <% end %>
+</ul>
