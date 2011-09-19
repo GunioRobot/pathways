@@ -26,7 +26,8 @@ module Pathways
         next unless timestamp = line.match( /^PathwaysTracker\:(.*)/)
         visit_hash = JSON.parse(timestamp[1].to_s)
 
-        session = Pathways::Session.find_or_create_by_ip_and_state(visit_hash["ip"], :active)
+        session = Pathways::Session.find_or_create_by_client_id_and_state(visit_hash["client_id"], :active)
+        session.update_attributes(:user_id => visit_hash["user_id"], :iteration => visit_hash["iteration"])
 
         updated_at = Time.parse(visit_hash["created_at"]).to_i
         next if most_recent_session_updated_at and updated_at < most_recent_session_updated_at
@@ -41,7 +42,8 @@ module Pathways
           if time_since_last_visit > 600
             session.state = :closed
             session.save
-            session = Pathways::Session.find_or_create_by_ip_and_state(visit_hash["ip"], :active)
+            session = Pathways::Session.find_or_create_by_client_id_and_state(visit_hash["client_id"], :active)
+            session.update_attributes(:user_id => visit_hash["user_id"], :iteration => visit_hash["iteration"])
             session.created_at = updated_at
           end
           last_visit.time_active =  (time_since_last_visit > 60) ? 60 : time_since_last_visit

@@ -2,6 +2,8 @@ module Pathways
   class Session
     include MongoMapper::Document
 
+    key :client_id, String
+    key :iteration, String
     key :ip, String
     key :state, String
     key :user_id,  Integer
@@ -66,6 +68,21 @@ module Pathways
       else
         self.collection.map_reduce(self.path_map, self.path_reduce, opts)
       end
+    end
+
+    def self.find_by_path(path,opts={})
+      opts.merge!({
+        :out    => {:inline => true},
+        :raw    => true
+      })
+      results = self.finder_build(opts).find()
+      sessions = []
+      results.to_a.first.last.each do | result |
+        id = result["_id"]
+        next unless id == path
+        sessions = Pathways::Session.find_all_by_id(result["value"]["sessions"].try(:uniq))
+      end
+      return sessions
     end
 
     def self.popular_pages(opts={})
