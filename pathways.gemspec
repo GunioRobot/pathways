@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Mint Digital","Simon Reed"]
   s.email       = ["hello@mintdigital.com","min.sucks@gmail.com"]
-  s.homepage    = "http://rubygems.org/gems/pathways"
+  s.homepage    = "http://github.com/simonreed/pathways"
   s.summary     = "Helps your track the pathways in your Rails app."
   s.description = "Helps your track the pathways in your app so that you can pave the cowpaths. Uses MongoDB to traverse the paths looking for little nuggets."
 

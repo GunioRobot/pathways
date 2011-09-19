@@ -9,13 +9,13 @@ module Pathways
       @log            = File.open( path )
     end
 
-    def self.execute(env="development")
+    def self.execute(env="development", interval_seconds=60)
       parser = self.new(env)
       most_recent_session_updated_at = Pathways::Session.first(:order => "updated_at DESC").try(:updated_at)
       while true
         puts "Processing"
         parser.run(most_recent_session_updated_at)
-        sleep 5;
+        sleep interval_seconds.to_i;
       end
     end
 
