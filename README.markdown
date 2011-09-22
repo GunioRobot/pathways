@@ -82,7 +82,7 @@ It's a thin layer around `rackup` so it's configurable as well:
 
 ### Passenger
 
-Using Passenger? Resque ships with a `config.ru` you can use. See
+Using Passenger? Pathways ships with a `config.ru` you can use. See
 Phusion's guide:
 
 Apache: <http://www.modrails.com/documentation/Users%20guide%20Apache.html#_deploying_a_rack_based_ruby_application>
@@ -90,7 +90,7 @@ Nginx: <http://www.modrails.com/documentation/Users%20guide%20Nginx.html#deployi
 
 ### Rack::URLMap
 
-If you want to load Resque on a subpath, possibly alongside other
+If you want to load Pathways on a subpath, possibly alongside other
 apps, it's easy to do with Rack's `URLMap`:
 
 ``` ruby
@@ -103,7 +103,7 @@ run Rack::URLMap.new \
 
 ### Rails 3
 
-You can also easily mount Resque on a subpath in your existing Rails 3 app by adding this to your `routes.rb`:
+You can also easily mount Pathways on a subpath in your existing Rails 3 app by adding this to your `routes.rb`:
 
 ``` ruby
 mount Pathways::Server.new, :at => "/pathways"
@@ -140,12 +140,12 @@ Installing Pathways
 
 First install the gem.
 
-    $ gem install resque
+    $ gem install pathways
 
 Next include it in your application.
 
     $ cat config/initializers/load_pathways.rb
-    require 'resque'
+    require 'pathways'
 
 Now start your application:
 
