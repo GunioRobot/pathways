@@ -5,7 +5,10 @@ Pathways allows you to see the pathways that users are using within your applica
 
 Pathways uses your default Rails logger to store the information from a successful response so it doesn't slow our request/response cycle. We can then parse the logfile and store the results in a MongoDB database at a later date.
 
-### Another set of Metrics?
+It has been created by those delightful fellows at [Mint Digital][2].
+
+Another set of Metrics?
+-----------------------
 
 Pathways was created so that we can understand the impact of our development on the behaviour of our users. Metrics shouldn't just be about page view counters it should understand where the user has been within that viewing session. By using a non relational database like MongoDB we can map_reduce all the pages that a user visits in a session so that we can truly analyse what is going on within our applications.
 
@@ -22,8 +25,9 @@ Overview
 
 Pathways allows you to track the flow users take within your application. Each successful request is logged into your Rails.logger which can then be asynchronously parsed and stored in a MongoDB table later.
 
-Tracker
--------
+We store a user session (Pathways::Session) which has many visits (Pathways:Visit), these are MongoMapper documents which can be queried accordingly.
+
+### Pathways::Tracker
 
 To start tracking the paths your users are taking all you need to do is add this to your controllers.
 
@@ -36,7 +40,8 @@ end
 
 This will create an entry in your default logfile that is later collected and parsed by Pathways.
 
-### Iteration
+Iteration
+---------
 
 You can also track the iteration/deployment that is currently running so that we can easily track the impact of each deployment.
 
@@ -48,8 +53,7 @@ class ApplicationController
 end
 ```
 
-Parser
-------
+### Pathways::Parser
 
 Now that we're tracking the paths our users take we need to parse these so that we can mine this like a mofo.
 
@@ -63,7 +67,7 @@ If you want to specify the name of the logfile then you can pass it as the first
 
 You can also control the interval (in seconds) that parser will check your logfile, the default is set to 60 seconds.
 
-    Pathways::Tracker.iteration("production",10)
+    Pathways::Parser.execute("production",10)
 
 The Front End
 -------------
@@ -196,3 +200,5 @@ Author
 Simon Reed :: simon@mintdigital.com :: @simonreed
 
 [0]: http://logicalfriday.com/2011/08/25/dont-build-that-feature/
+[1]: http://help.github.com/forking/
+[2]: http://www.mintdigital.com/
